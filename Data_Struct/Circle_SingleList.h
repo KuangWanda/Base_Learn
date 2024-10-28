@@ -5,20 +5,6 @@
 #include "LinkList.h"
 
 #define LOG(x) std::cout << x << std::endl;
-/*
-学习内容：c++循环单链表
-*/
-
-// class Node
-// {
-// public:
-//     int data;
-//     Node *next;
-
-// public:
-//     Node(int val)
-//         : data(val), next(nullptr) {}
-// };
 
 class CircleSingleList
 {
