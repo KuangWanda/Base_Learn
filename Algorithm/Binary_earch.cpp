@@ -20,7 +20,7 @@ void BinarySearch(std::vector<int> &v, int &target) // 非递归方式进行二�
     {
         if (v[mid] == target)
         {
-            std::cout << "第" << mid + 1 << "个数是目标值";
+            std::cout << "第" << mid + 1 << "个数是目标值" << std::endl;
             break;
         }
         else if (v[mid] < target)
@@ -53,7 +53,7 @@ int BinarySearch_Recursion(std::vector<int> &v, int &target, int left, int right
     {
         if (v[mid] == target)
         {
-            std::cout << "第" << mid + 1 << "个数是目标值";
+            std::cout << "第" << mid + 1 << "个数是目标值" << std::endl;
             return mid + 1;
         }
         else if (v[mid] < target)
@@ -67,6 +67,6 @@ int main()
 {
     std::vector<int> array = {12, 25, 34, 39, 45, 57, 63, 78, 82, 96, 100};
     int target = 34;
-    // BinarySearch(array, target);
+    BinarySearch(array, target);
     int index = BinarySearch_Recursion(array, target, 0, array.size() - 1);
 }
