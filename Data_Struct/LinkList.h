@@ -12,12 +12,12 @@ public:
 };
 
 // 定义链表类
-class LinkedList
+class LinkList
 {
 private:
     Node *head; // 链表的头指针
 public:
-    LinkedList()
+    LinkList()
         : head(new Node(0)) {}
 
     void InsertTail(int val) // 尾插法
@@ -219,7 +219,7 @@ public:
         }
         return n;
     }
-    ~LinkedList()
+    ~LinkList()
     {
         if (!head->next)
             delete head;

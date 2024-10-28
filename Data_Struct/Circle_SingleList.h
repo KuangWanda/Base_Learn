@@ -1,22 +1,24 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
+#include "LinkList.h"
 
 #define LOG(x) std::cout << x << std::endl;
 /*
 学习内容：c++循环单链表
 */
 
-class Node
-{
-public:
-    int data;
-    Node *next;
+// class Node
+// {
+// public:
+//     int data;
+//     Node *next;
 
-public:
-    Node(int val)
-        : data(val), next(nullptr) {}
-};
+// public:
+//     Node(int val)
+//         : data(val), next(nullptr) {}
+// };
 
 class CircleSingleList
 {
@@ -70,6 +72,7 @@ public:
         Node *current = head->next;
         if (head == tail)
         {
+            std::cout << "hhhh" << std::endl;
             std::cout << "[GETVAL_ERROR]:循环单链表为空！" << std::endl;
         }
         else
@@ -105,7 +108,7 @@ public:
                 current = current->next;
                 after = after->next;
             }
-            if (tail->data == val)  // 尾指针需要特殊处理
+            if (tail->data == val) // 尾指针需要特殊处理
             {
                 after->next = head;
                 tail = after;
@@ -122,8 +125,8 @@ public:
             std::cout << "[FIND_ERROE]:链表为空，查找失败！" << std::endl;
         else
         {
-            Node* current = head->next;
-            while(current != tail)
+            Node *current = head->next;
+            while (current != tail)
             {
                 if (current->data == val)
                 {
@@ -143,6 +146,67 @@ public:
         }
         std::cout << "[FIND_ERROR]:未找到相应节点，查找失败！" << std::endl;
         return false;
+    }
+
+    void Josephus(int k, int m) // 约瑟夫环问题
+    {
+        Node *node = head;
+        Node *slow = head;
+        int count = 0;
+        while (node != tail)
+        {
+            count++;
+            node = node->next;
+        }
+        if (count < k)
+            std::cout << "[Josephus_ERROR]:链表个数不足" << k << "个！" << std::endl;
+        else
+        {
+            LinkList *l = new LinkList();
+            node = head->next;
+            int i = 1;
+            while (i < k) // 先找起始节点
+            {
+                node = node->next;
+                slow = slow->next;
+                i++;
+            }
+            int num = 0;
+            while (num < count)
+            {
+                i = 1;
+                while (i < m)
+                {
+                    if (node == tail)
+                    {
+                        node = node->next->next;
+                        slow = slow->next->next;
+                        i++;
+                    }
+                    else
+                    {
+                        node = node->next;
+                        slow = slow->next;
+                        i++;
+                    }
+                }
+                l->InsertTail(node->data);
+                if (node == tail)
+                {
+                    slow->next = node->next;
+                    node = head->next;
+                    tail = slow;
+                    slow = head;
+                }
+                else
+                {
+                    slow->next = node->next;
+                    node = slow->next;
+                }
+                num++;
+            }
+            l->GetData();
+        }
     }
 
     ~CircleSingleList()
