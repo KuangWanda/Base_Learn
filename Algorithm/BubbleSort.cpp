@@ -8,7 +8,8 @@
 学习内容：C++冒泡排序
 */
 
-void BubbleSort(std::vector<int> &v)
+template <typename T>
+void BubbleSort(std::vector<T> &v)
 {
     int size = v.size();
     for (int i = 0; i < size - 1; i++)
@@ -16,7 +17,7 @@ void BubbleSort(std::vector<int> &v)
         int count = 0; // 记录数据交换的次数
         for (int j = 0; j < size - 1 - i; j++)
         {
-            int tmp;
+            T tmp;
             if (v[j + 1] < v[j])
             {
                 tmp = v[j];
@@ -34,7 +35,8 @@ void BubbleSort(std::vector<int> &v)
 int main()
 {
     std::vector<int> array = {7, 6, 5, 4, 3, 2, 1};
-    BubbleSort(array);
-    for (int v : array)
+    std::vector<float> array_f = {2.1f, 3.7f, 0.4f, 5.9f, 0.1f};
+    BubbleSort(array_f);
+    for (auto v : array_f)
         LOG(v);
 }
