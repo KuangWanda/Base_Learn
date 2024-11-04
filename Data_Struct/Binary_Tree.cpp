@@ -119,21 +119,23 @@ public:
 
     void PreorderTraversal() // 非递归方法遍历二叉树
     {
-        std::queue<TreeNode *> node_q;
-        if (!root)
+        if(!root)
         {
-            LOG("二叉树为空，无法非递归先序遍历！");
+            LOG("二叉树为空，无法非递归前序遍历！");
             return;
         }
-        node_q.push(root);
-        while (node_q.size())
+        std::stack<TreeNode*> node_s;
+        TreeNode* top;
+        node_s.push(root);
+        while(!node_s.empty())
         {
-            node_q.front()->GetData();
-            if (node_q.front()->GetLeft())
-                node_q.push(node_q.front()->GetLeft());
-            if (node_q.front()->GetRight())
-                node_q.push(node_q.front()->GetRight());
-            node_q.pop();
+            top = node_s.top();
+            top->GetData();
+            node_s.pop();
+            if (top->GetRight())
+                node_s.push(top->GetRight());
+            if (top->GetLeft())
+                node_s.push(top->GetLeft());
         }
     }
 
@@ -168,7 +170,7 @@ public:
             return;
         }
         TreeNode *current = root;
-        TreeNode* last = nullptr;
+        TreeNode *last = nullptr;
         while (current || !node_s.empty())
         {
             while (current)
@@ -179,7 +181,7 @@ public:
 
             current = node_s.top();
 
-            if(current->GetRight() || current->GetRight() == nullptr)
+            if (!current->GetRight() || current->GetRight() == last)
             {
                 current->GetData();
                 node_s.pop();
@@ -233,6 +235,6 @@ int main()
     // tree->PreorderTraversal_Recursion(tree->GetRoot());
     tree->InsertLeft(tree->GetRoot()->GetLeft(), 25);
     tree->InsertLeft(tree->GetRoot()->GetLeft()->GetLeft(), 40);
-    tree->PostorderTraversal();
+    tree->PreorderTraversal();
     // tree->LevelTraversal();
 }
