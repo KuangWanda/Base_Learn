@@ -170,7 +170,7 @@ public:
             return;
         }
         TreeNode *current = root;
-        TreeNode *last = nullptr;
+        TreeNode *last = nullptr;  // 记录上一次被遍历的节点
         while (current || !node_s.empty())
         {
             while (current)
@@ -186,7 +186,7 @@ public:
                 current->GetData();
                 node_s.pop();
                 last = current;
-                current = nullptr;
+                current = nullptr;  // 保证下一次循环会检查栈顶的元素
             }
             else
             {
@@ -235,6 +235,6 @@ int main()
     // tree->PreorderTraversal_Recursion(tree->GetRoot());
     tree->InsertLeft(tree->GetRoot()->GetLeft(), 25);
     tree->InsertLeft(tree->GetRoot()->GetLeft()->GetLeft(), 40);
-    tree->PreorderTraversal();
+    tree->PostorderTraversal();
     // tree->LevelTraversal();
 }
