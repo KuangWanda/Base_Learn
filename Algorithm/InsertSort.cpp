@@ -18,7 +18,7 @@ void InsertSort(std::vector<T>& v)
     {
         T tmp = v[i];  // 获取当前待排元素
         int j = i - 1; // 确定开始比较的位置
-        while (j > -1 && v[j] > v[i])
+        while (j > -1 && v[j] > tmp)
         {
             v[j + 1] = v[j];
             v[j] = tmp; 
