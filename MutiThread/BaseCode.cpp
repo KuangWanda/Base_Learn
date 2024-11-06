@@ -13,8 +13,9 @@
   时由于a是test()中的局部变量，因此a原本的地址存放的2被位置数据覆盖，导致x第二次输
   出的结果变成一个未知数据。
 2.如果想消除上述问题，可以选择将a变成全局变量，也可以将t.join()放在test()中。
+3.针对类对象，使用智能指针避免类成员对象的释放错误
+4.如果访问的是类内的私有方法，就要在外部设置友元函数
 */
-
 
 std::thread t;
 
@@ -38,6 +39,31 @@ void test()
     int a = 1;
     t = std::thread(Plus, std::ref(a));
     std::cout << "a = " << a << std::endl;
+    if (t.joinable())
+        t.join();
+}
+
+class A
+{
+public:
+    void foo(std::string msg)
+    {
+        LOG(msg);
+    }
+private:
+    friend void private_f();
+    void foo_pri(std::string msg)
+    {
+        LOG(msg);
+    }
+};
+
+void private_f()
+{
+    std::shared_ptr<A> a= std::make_shared<A>();
+    std::thread friend_t(&A::foo_pri, a, "lzy_private");
+    if (friend_t.joinable())
+        friend_t.join();
 }
 
 int main()
@@ -52,13 +78,25 @@ int main()
     int a = 1;
     // std::thread thread2(Plus, a);  // a是临时变量
     std::thread thread2(Plus, std::ref(a));
-    LOG(a); // 此时主程序跳过线程的执行过程，输出1
+    // LOG(a); // 此时主程序跳过线程的执行过程，输出1
     thread2.join();
-    LOG(a); // 线程执行完毕，输出2
+    // LOG(a); // 线程执行完毕，输出2
 
-    test();
-    t.join();
+    // test();
+    // t.join();
 
+    // 类对象使用智能指针
+    // A *classa = new A();
+    // std::thread thread_class(&A::foo, classa, "hello");
+    // delete classa;
+    // thread_class.join();
+
+    std::shared_ptr<A> classa = std::make_shared<A>();
+    std::thread class_thread(&A::foo, classa, "lzy");
+    if (class_thread.joinable())
+        class_thread.join();
+    
+    private_f();
 
     // thread1.detach();  // 分离子线程和主线程，主线程结束之后，子线程可以继续在后台运行
 }
